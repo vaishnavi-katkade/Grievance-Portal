@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard - Grievance Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-brand">
+      <img src="logo.png" alt="College Logo" class="nav-logo">
+      <div>
+        <h2>Student Grievance Portal</h2>
+        <span class="college-name">Shreeyash Pratishthan, Chhatrapati Sambhajinagar</span>
+      </div>
+    </div>
+    <button onclick="logout()">Logout</button>
+  </nav>
+
+  <div class="container">
+    <!-- Statistics Section -->
+    <h3>📊 Dashboard Overview</h3>
+    <div class="stats-container">
+      <div class="stat-card blue">
+        <div class="number" id="totalComplaints">0</div>
+        <h4>Total</h4>
+      </div>
+      <div class="stat-card orange">
+        <div class="number" id="pendingComplaints">0</div>
+        <h4>Pending</h4>
+      </div>
+      <div class="stat-card green">
+        <div class="number" id="resolvedComplaints">0</div>
+        <h4>Resolved</h4>
+      </div>
+    </div>
+    <!-- File New Complaint Section - University Document Style -->
+    <div class="univ-container">
+      <div id="complaintAlert"></div>
+
+      <form id="complaintForm" onsubmit="event.preventDefault(); submitComplaint(event)">
+
+        <!-- SECTION 1: PERSONAL INFORMATION -->
+        <div class="univ-section">
+          <div class="univ-header">
+            <h3>👤 Personal Information</h3>
+          </div>
+
+          <div class="univ-group-row">
+            <div class="univ-form-group half">
+              <label class="univ-label">Full Name</label>
+              <input type="text" id="studentName" name="name" class="univ-input" placeholder="Enter your full name" required>
+            </div>
+            <div class="univ-form-group half">
+              <label class="univ-label">Enrollment No. <span class="read-only-tag">(Read Only)</span></label>
+              <input type="text" id="studentEnrollment" name="enrollmentNumber" class="univ-input" readonly style="background-color: #f8f9fa;">
+            </div>
+          </div>
+
+          <div class="univ-group-row">
+            <div class="univ-form-group half">
+              <label class="univ-label" for="studentEmail">Email Address <span class="read-only-tag">(Read Only)</span></label>
+              <input type="email" id="studentEmail" name="email" class="univ-input" readonly style="background-color: #f8f9fa;">
+            </div>
+            <div class="univ-form-group half">
+              <label class="univ-label" for="studentPhone">Phone Number</label>
+              <input type="tel" id="studentPhone" class="univ-input" placeholder="Enter 10-digit number"
+                pattern="[0-9]{10}" required>
+            </div>
+          </div>
+
+          <div class="univ-form-group">
+            <label class="univ-label" for="studentDept">Department</label>
+            <select id="studentDept" class="univ-select" required>
+                <option value="">-- Select Official Department --</option>
+                <option value="SHREEYASH COLLEGE OF ENGINEERING & TECHNOLOGY">SHREEYASH COLLEGE OF ENGINEERING & TECHNOLOGY</option>
+                <option value="SHREEYASH COLLEGE OF ENGINEERING & TECHNOLOGY (POLYTECHNIC)">SHREEYASH COLLEGE OF ENGINEERING & TECHNOLOGY (POLYTECHNIC)</option>
+                <option value="SHREEYASH INSTITUTE OF PHARMACY">SHREEYASH INSTITUTE OF PHARMACY</option>
+                <option value="SHREEYASH INSTITUTE OF PHARMACEUTICAL EDUCATION & RESEARCH">SHREEYASH INSTITUTE OF PHARMACEUTICAL EDUCATION & RESEARCH</option>
+                <option value="SHREEYASH INSTITUTE OF MANAGEMENT STUDIES AND RESEARCH">SHREEYASH INSTITUTE OF MANAGEMENT STUDIES AND RESEARCH</option>
+                <option value="SHREEYASH AYURVEDIC COLLEGE AND HOSPITAL RESEARCH CENTER">SHREEYASH AYURVEDIC COLLEGE AND HOSPITAL RESEARCH CENTER</option>
+                <option value="HR">HR</option>
+                <option value="Admin">Admin</option>
+                <option value="Account">Account</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- SECTION 2: GRIEVANCE INFORMATION -->
+        <div class="univ-section">
+          <div class="univ-header">
+            <h3>📝 Grievance Information</h3>
+          </div>
+
+          <div class="univ-form-group">
+            <label class="univ-label" for="title">Grievance Title</label>
+            <input type="text" id="title" class="univ-input" placeholder="Enter brief title" required maxlength="100">
+          </div>
+
+          <div class="univ-form-group">
+            <label class="univ-label" for="incidentDate">Incident Occurrence Date</label>
+            <input type="date" id="incidentDate" class="univ-input" required>
+          </div>
+
+          <div class="univ-form-group">
+            <label class="univ-label" for="category">Grievance Category</label>
+            <select id="category" class="univ-select" required>
+              <option value="">-- Select Category --</option>
+              <option value="General Grievance">General Grievance</option>
+              <option value="Hostel">Hostel</option>
+                <option value="Hostel Mess">Hostel Mess</option>
+              <option value="Sexual Harassment">Sexual Harassment</option>
+              <option value="Ragging">Ragging</option>
+              <option value="Admission">Admission</option>
+              <option value="Discrimination">Discrimination</option>
+              <option value="Faculty Related">Faculty Related</option>
+              <option value="Computer and Network">Computer and Network</option>
+              <option value="ERP">ERP</option>
+              <option value="Maintenance">Maintenance</option>
+              <option value="Student Section">Student Section</option>
+              <option value="Administration and HR">Administration and HR</option>
+              <option value="Procurement and Inventory">Procurement and Inventory</option>
+              <option value="Accounts">Accounts</option>
+              <option value="Transport">Transport</option>
+              <option value="Library">Library</option>
+              <option value="Training and Placement">Training and Placement</option>
+              <option value="Student Grievance">Student Grievance</option>
+              <option value="RO Plant">RO Plant</option>
+              <option value="Other">Other</option>
+
+            </select>
+          </div>
+
+          <div class="univ-form-group">
+            <label class="univ-label" for="description">Grievance Summary</label>
+            <textarea id="description" class="univ-textarea" placeholder="Please provide detailed description..."
+              required maxlength="500"></textarea>
+          </div>
+        </div>
+
+        <!-- SECTION 2: DOCUMENT DETAILS -->
+        <div class="univ-section">
+          <div class="univ-header">
+            <h3>📄 Document Details</h3>
+          </div>
+
+          <div class="univ-form-group">
+            <label class="univ-label" for="docTitle">Document Title</label>
+            <input type="text" id="docTitle" class="univ-input" placeholder="e.g. Medical Certificate">
+          </div>
+
+          <div class="univ-form-group">
+            <label class="univ-label">Upload Document</label>
+            <div class="file-upload-block">
+              <input type="file" id="docFile" accept=".pdf,.doc,.docx,.jpg,.png">
+              <span class="helper-text" style="display:block; margin-top:0.5rem;">Max 5MB (pdf, doc, docx, jpg,
+                png)</span>
+            </div>
+          </div>
+
+          <div class="univ-form-group" style="margin-top: 1.5rem;">
+            <label class="univ-label" for="solutionText">Additional Notes / Expected Resolution</label>
+            <textarea id="solutionText" class="univ-textarea" style="min-height:100px;"
+              placeholder="Optional..."></textarea>
+          </div>
+
+          <button type="submit" class="univ-btn-submit">Submit Grievance</button>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- My Complaints Section -->
+    <h3>📋 My Submitted Grievances</h3>
+
+    <!-- Search and Filter -->
+    <div class="filter-section">
+      <input type="text" id="searchInput" placeholder="🔍 Search by title, description..." onkeyup="filterComplaints()">
+      <select id="statusFilter" onchange="filterComplaints()">
+        <option value="">All Status</option>
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Resolved">Resolved</option>
+      </select>
+      <select id="categoryFilter" onchange="filterComplaints()">
+     <option value="">-- Select Category --</option>
+              <option value="General Grievance">General Grievance</option>
+              <option value="Hostel">Hostel</option>
+                <option value="Hostel Mess">Hostel Mess</option>
+              <option value="Sexual Harassment">Sexual Harassment</option>
+              <option value="Ragging">Ragging</option>
+              <option value="Admission">Admission</option>
+              <option value="Discrimination">Discrimination</option>
+              <option value="Faculty Related">Faculty Related</option>
+              <option value="Computer and Network">Computer and Network</option>
+              <option value="ERP">ERP</option>
+              <option value="Maintenance">Maintenance</option>
+              <option value="Student Section">Student Section</option>
+              <option value="Administration and HR">Administration and HR</option>
+              <option value="Procurement and Inventory">Procurement and Inventory</option>
+              <option value="Accounts">Accounts</option>
+              <option value="Transport">Transport</option>
+              <option value="Library">Library</option>
+              <option value="Training and Placement">Training and Placement</option>
+              <option value="Student Grievance">Student Grievance</option>
+              <option value="RO Plant">RO Plant</option>
+              <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div class="table-container">
+      <table id="complaintTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Incident Date</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Date Submitted</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <p style="font-size: 3rem;">📭</p>
+      <h3 style="color: #666;">No Grievances Submitted</h3>
+      <p>You haven't submitted any grievances yet. Use the form above to submit your first grievance.</p>
+    </div>
+  </div>
+
+  <!-- Grievance Detail/Edit Modal -->
+  <div id="grievanceModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
+    <div class="modal-content" style="background-color: #fefefe; margin: 10% auto; padding: 25px; border: 1px solid #e2e8f0; width: 90%; max-width: 600px; border-radius: 12px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+      <span class="close" onclick="closeModal()" style="color: #94a3b8; position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; line-height: 1;">&times;</span>
+      <h2 id="modalTitle" style="margin-top: 0; margin-bottom: 20px; color: #1e293b; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Grievance Details</h2>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="public/api.js"></script>
+  <script src="public/script.js"></script>
+</body>
+</html>

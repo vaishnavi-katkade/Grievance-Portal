@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Grievance Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-brand">
+      <img src="logo.png" alt="College Logo" class="nav-logo">
+      <div>
+        <h2>Admin Dashboard - Grievance Portal</h2>
+        <span class="college-name">Shreeyash Pratishthan, Chhatrapati Sambhajinagar</span>
+      </div>
+    </div>
+    <div>
+      <button onclick="window.location.href='manage-users.html'" class="secondary">Manage Users</button>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Statistics Section -->
+    <h3>📊 System Statistics Overview</h3>
+    <div class="stats-container">
+      <div class="stat-card blue">
+        <div class="number" id="adminTotalComplaints">0</div>
+        <h4>Total</h4>
+      </div>
+      <div class="stat-card orange">
+        <div class="number" id="adminPendingComplaints">0</div>
+        <h4>Pending</h4>
+      </div>
+      <div class="stat-card">
+        <div class="number" id="adminInProgressComplaints">0</div>
+        <h4>In Progress</h4>
+      </div>
+      <div class="stat-card green">
+        <div class="number" id="adminResolvedComplaints">0</div>
+        <h4>Resolved</h4>
+      </div>
+    </div>
+
+    <!-- Category Breakdown -->
+    <h3>📂 Category-wise Distribution</h3>
+    <div class="stats-container" id="categoryStats">
+      <!-- Will be populated dynamically -->
+    </div>
+
+    <!-- All Complaints Section -->
+    <h3>📋 All Student Grievances</h3>
+
+    <div id="criticalAlertContainer" style="display: none;"></div>
+    <div id="adminAlert"></div>
+
+    <!-- Search and Filter -->
+    <div class="filter-section">
+      <input
+        type="text"
+        id="adminSearchInput"
+        placeholder="🔍 Search by ID, title, or description..."
+        onkeyup="filterAdminComplaints()"
+      >
+      <select id="adminStatusFilter" onchange="filterAdminComplaints()">
+        <option value="">All Status</option>
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Resolved">Resolved</option>
+      </select>
+      <select id="adminCategoryFilter" onchange="filterAdminComplaints()">
+        <option value="">All Categories</option>
+              <option value="General Grievance">General Grievance</option>
+              <option value="Hostel">Hostel</option>
+                <option value="Hostel Mess">Hostel Mess</option>
+              <option value="Sexual Harassment">Sexual Harassment</option>
+              <option value="Ragging">Ragging</option>
+              <option value="Admission">Admission</option>
+              <option value="Discrimination">Discrimination</option>
+              <option value="Faculty Related">Faculty Related</option>
+              <option value="Computer and Network">Computer and Network</option>
+              <option value="ERP">ERP</option>
+              <option value="Maintenance">Maintenance</option>
+              <option value="Student Section">Student Section</option>
+              <option value="Administration and HR">Administration and HR</option>
+              <option value="Procurement and Inventory">Procurement and Inventory</option>
+              <option value="Accounts">Accounts</option>
+              <option value="Transport">Transport</option>
+              <option value="Library">Library</option>
+              <option value="Training and Placement">Training and Placement</option>
+              <option value="Student Grievance">Student Grievance</option>
+              <option value="RO Plant">RO Plant</option>
+              <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div class="table-container">
+      <table id="adminTable">
+        <thead>
+          <tr>
+            <th class="w-24 px-4 py-3 text-left">ID</th>
+            <th class="w-48 px-4 py-3 text-left">Title</th>
+            <th class="w-32 px-4 py-3 text-left">Category</th>
+            <th class="w-32 px-4 py-3 text-left">Status</th>
+            <th class="w-48 px-4 py-3 text-left">Assigned To</th>
+            <th class="w-32 px-4 py-3 text-left">Date Submitted</th>
+            <th class="w-32 px-4 py-3 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div id="adminEmptyState" class="empty-state" style="display: none;">
+      <p style="font-size: 3rem;">📭</p>
+      <h3 style="color: #666;">No Grievances in System</h3>
+      <p>No student grievances have been submitted yet.</p>
+    </div>
+  </div>
+
+  <!-- Grievance Detail Modal -->
+  <div id="grievanceModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
+    <div class="modal-content" style="background-color: #fefefe; margin: 10% auto; padding: 25px; border: 1px solid #e2e8f0; width: 90%; max-width: 600px; border-radius: 12px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+      <span class="close" onclick="closeModal()" style="color: #94a3b8; position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; line-height: 1;">&times;</span>
+      <h2 style="margin-top: 0; margin-bottom: 20px; color: #1e293b; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Grievance Details</h2>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="public/api.js"></script>
+  <script src="public/script.js"></script>
+</body>
+</html>
