@@ -5,7 +5,7 @@ const Complaint = require('../models/Complaint');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI, { tlsInsecure: true });
     console.log('✅ MongoDB Connected');
   } catch (error) {
     console.error('❌ Error connecting to MongoDB:', error.message);
@@ -32,14 +32,14 @@ const seedDatabase = async () => {
     });
 
     const adminUser = await User.create({
-      email: 'admin@gmail.com',
+      email: 'vaishnvikatkade690@gmail.com',
       password: 'admin',
       role: 'admin'
     });
 
     console.log('✅ Created demo users:');
     console.log('   Student: student@gmail.com / 123');
-    console.log('   Admin: admin@gmail.com / admin');
+    console.log('   Admin: vaishnvikatkade690@gmail.com / admin');
 
     // Create sample complaints
     const sampleComplaints = [

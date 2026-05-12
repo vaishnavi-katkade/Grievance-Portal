@@ -14,7 +14,10 @@ const connectDB = async () => {
   }
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(process.env.MONGODB_URI).then((mongoose) => {
+    const opts = {
+      tlsInsecure: true,
+    };
+    cached.promise = mongoose.connect(process.env.MONGODB_URI, opts).then((mongoose) => {
       console.log(`✅ MongoDB Connected: ${mongoose.connection.host}`);
       console.log(`📊 Database: ${mongoose.connection.name}`);
       return mongoose;
